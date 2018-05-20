@@ -158,5 +158,25 @@ class Chapter3Spec extends FeatureSpec {
       val b1 = Branch(Leaf(1), Leaf(2))
       assert(size(b1) == 3)
     }
+
+    scenario("26 - write func to return max element in tree") {
+      def max(t:Tree[Int]): Int =
+        t match {
+          case Leaf(value) => value
+          case Branch(left, right) => max(left).max(max(right))
+        }
+      val b1 = Branch(Leaf(1), Leaf(2))
+      assert(max(b1) == 2)
+    }
+
+    scenario("27 - write func to return depth") {
+      def depth[A](t:Tree[A]): Int =
+        t match {
+          case Leaf(_) => 0
+          case Branch(left, right) => depth(left).max(depth(right)) + 1
+        }
+      val b1 = Branch(Branch(Leaf(1), Leaf(2)), Leaf(4))
+      assert(depth(b1) == 2)
+    }
   }
 }
