@@ -178,5 +178,16 @@ class Chapter3Spec extends FeatureSpec {
       val b1 = Branch(Branch(Leaf(1), Leaf(2)), Leaf(4))
       assert(depth(b1) == 2)
     }
+
+    scenario("28 - implement tree map") {
+      def mapT[A,B](t:Tree[A])(f:(A) => B): Tree[B] =
+        t match {
+          case Leaf(value) => Leaf(f(value))
+          case Branch(left, right) => Branch(mapT(left)(f), mapT(right)(f))
+        }
+      val b1 = Branch(Branch(Leaf(1), Leaf(2)), Leaf(4))
+      val b2 = Branch(Branch(Leaf("1"), Leaf("2")), Leaf("4"))
+      assert(mapT(b1)((x) => x.toString) == b2)
+    }
   }
 }
