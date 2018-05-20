@@ -113,5 +113,16 @@ class Chapter3Spec extends FeatureSpec {
       assert(evenOnly == List(2,4))
     }
 
+    scenario("22 - accepts two list and adds them") {
+      def addLists(l1: List[Int], l2: List[Int]): List[Int] =
+        (l1, l2) match {
+          case (_, Nil) => Nil
+          case (Nil, _) => Nil
+          case (Cons(h1, t1), Cons(h2, t2)) => Cons(h1 + h2, addLists(t1, t2))
+        }
+
+      val r = addLists(List(1,2), List(3,4))
+      assert(r == List(4,6))
+    }
   }
 }
