@@ -106,5 +106,12 @@ class Chapter3Spec extends FeatureSpec {
       val a = List.flatMap(List(1,2,3))(i => List(i,i))
       assert(a == List(1,1,2,2,3,3))
     }
+
+    scenario("21 - implement filter via flatMap") {
+      val l = List(1,2,3,4)
+      val evenOnly = List.filterViaFlatMap(l)(_ % 2 != 1)
+      assert(evenOnly == List(2,4))
+    }
+
   }
 }

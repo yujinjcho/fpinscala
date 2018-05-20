@@ -112,12 +112,17 @@ object List {
   // Exercise 19: implement filter
   def filter[A](l: List[A])(f: A => Boolean): List[A] =
     List.foldRight(l, Nil: List[A])((x, acc) => {
-      if (f(x)) Cons(x, acc)
-      else acc
+      if (f(x)) Cons(x, acc) else acc
     })
 
   // Exercise 20: implement flatMap
   def flatMap[A,B](l: List[A])(f: A => List[B]): List[B] =
     flatten(map(l)(f))
+
+  // Exercise 21: filter via flatMap
+  def filterViaFlatMap[A](l: List[A])(f: A => Boolean): List[A] =
+    flatMap(l)((x) => {
+      if (f(x)) List(x) else Nil
+    })
 
 }
