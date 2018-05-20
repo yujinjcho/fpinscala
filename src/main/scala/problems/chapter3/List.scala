@@ -125,4 +125,12 @@ object List {
       if (f(x)) List(x) else Nil
     })
 
+  // Exercise 23: zip and map
+  def zipAndTransform[A](l1: List[A], l2: List[A])(f: (A,A) => A): List[A] =
+    (l1, l2) match {
+      case (_, Nil) => Nil
+      case (Nil, _) => Nil
+      case (Cons(h1, t1), Cons(h2, t2)) => Cons(f(h1,h2), zipAndTransform(t1, t2)(f))
+    }
+
 }

@@ -124,5 +124,10 @@ class Chapter3Spec extends FeatureSpec {
       val r = addLists(List(1,2), List(3,4))
       assert(r == List(4,6))
     }
+
+    scenario("23 - zip and map") {
+      val r = List.zipAndTransform(List(1,2), List(3,4))(_ + _)
+      assert(r == List(4,6))
+    }
   }
 }
