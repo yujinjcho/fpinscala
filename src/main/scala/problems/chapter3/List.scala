@@ -105,4 +105,19 @@ object List {
   def flatten[A](ll: List[List[A]]): List[A] =
     foldRight(ll, Nil: List[A])(append)
 
+  // Exercise 18: implement map
+  def map[A,B](l: List[A])(f: A => B): List[B] =
+    List.foldRight(l, Nil: List[B])((x, acc) => Cons(f(x), acc))
+
+  // Exercise 19: implement filter
+  def filter[A](l: List[A])(f: A => Boolean): List[A] =
+    List.foldRight(l, Nil: List[A])((x, acc) => {
+      if (f(x)) Cons(x, acc)
+      else acc
+    })
+
+  // Exercise 20: implement flatMap
+  def flatMap[A,B](l: List[A])(f: A => List[B]): List[B] =
+    flatten(map(l)(f))
+
 }

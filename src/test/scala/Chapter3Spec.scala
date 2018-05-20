@@ -91,22 +91,20 @@ class Chapter3Spec extends FeatureSpec {
     }
 
     scenario("18 - implement map") {
-      def map[A,B](l: List[A])(f: A => B): List[B] =
-        List.foldRight(l, Nil: List[B])((x, acc) => Cons(f(x), acc))
       val l = List(1.0,2.0)
-      val lStringified = map(l)((a) => a.toString)
+      val lStringified = List.map(l)((a) => a.toString)
       assert(lStringified == List("1.0", "2.0"))
     }
 
     scenario("19 - implement filter") {
-      def filter[A](l: List[A])(f: A => Boolean): List[A] =
-        List.foldRight(l, Nil: List[A])((x, acc) => {
-          if (f(x)) Cons(x, acc)
-          else acc
-        })
       val l = List(1,2,3,4)
-      val evenOnly = filter(l)(_ % 2 != 1)
+      val evenOnly = List.filter(l)(_ % 2 != 1)
       assert(evenOnly == List(2,4))
+    }
+
+    scenario("20 - implement flatMap") {
+      val a = List.flatMap(List(1,2,3))(i => List(i,i))
+      assert(a == List(1,1,2,2,3,3))
     }
   }
 }
