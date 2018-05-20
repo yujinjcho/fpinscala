@@ -131,7 +131,7 @@ class Chapter3Spec extends FeatureSpec {
     }
 
     scenario("24 - implement has subsequence") {
-      def hasSubsequence[A](l: List[A], sub: List[A]): Boolean = 
+      def hasSubsequence[A](l: List[A], sub: List[A]): Boolean =
         (l, sub) match {
           case (_, Nil) => true
           case (Nil, _) => false
@@ -145,6 +145,18 @@ class Chapter3Spec extends FeatureSpec {
       val sub = List(3,4)
       assert(hasSubsequence(l, sub))
       assert(!hasSubsequence(l, List(5)))
+    }
+  }
+
+  feature("Trees") {
+    scenario("25 - write function size that counts nodes") {
+      def size[A](t:Tree[A]): Int =
+        t match {
+          case Leaf(_) => 1
+          case Branch(left, right) => size(left) + size(right) + 1
+        }
+      val b1 = Branch(Leaf(1), Leaf(2))
+      assert(size(b1) == 3)
     }
   }
 }
