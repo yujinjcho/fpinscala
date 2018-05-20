@@ -5,18 +5,18 @@ case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
 object List {
-	def sum(ints: List[Int]): Int = ints match {
-	  case Nil => 0
-	  case Cons(x,xs) => x + sum(xs)
-	}
+  def sum(ints: List[Int]): Int = ints match {
+    case Nil => 0
+    case Cons(x,xs) => x + sum(xs)
+  }
 
-	def product(ds: List[Double]): Double = ds match {
-	  case Nil => 1.0
-	  case Cons(0.0, _) => 0.0
-	  case Cons(x,xs) => x * product(xs)
-	}
+  def product(ds: List[Double]): Double = ds match {
+    case Nil => 1.0
+    case Cons(0.0, _) => 0.0
+    case Cons(x,xs) => x * product(xs)
+  }
 
-	def apply[A](as: A*): List[A] =
+  def apply[A](as: A*): List[A] =
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))
 
@@ -66,7 +66,7 @@ object List {
       case Cons(h,t) => Cons(h, append(t, a2))
     }
 
-  def foldRight[A,B](l: List[A], z: B)(f: (A, B) => B): B = 
+  def foldRight[A,B](l: List[A], z: B)(f: (A, B) => B): B =
     l match {
       case Nil => z
       case Cons(x, xs) => f(x, foldRight(xs, z)(f))
@@ -74,7 +74,7 @@ object List {
 
   // Exercise 10: do a tail recursive foldLeft
   @annotation.tailrec
-  def foldLeft[A,B](l: List[A], z: B)(f: (A, B) => B): B = 
+  def foldLeft[A,B](l: List[A], z: B)(f: (A, B) => B): B =
     l match {
       case Nil => z
       case Cons(x, xs) => foldLeft(xs, f(x,z))(f)
@@ -90,19 +90,19 @@ object List {
      foldLeft(l, Nil: List[A])(Cons(_,_))
 
   // Exercise 13: implement foldLeft with foldRight
-   def foldLeftViaFoldRight[A,B](l: List[A], z: B)(f: (A, B) => B): B = 
+   def foldLeftViaFoldRight[A,B](l: List[A], z: B)(f: (A, B) => B): B =
      foldRight(l, (b:B) => b)((a, g) => b => g(f(a, b)))(z)
 
-  def foldRightViaFoldLeft[A,B](l: List[A], z: B)(f: (A, B) => B): B = 
+  def foldRightViaFoldLeft[A,B](l: List[A], z: B)(f: (A, B) => B): B =
      foldLeft(l, (b:B) => b)((a, g) => b => g(f(a, b)))(z)
 
 
   // Exercise 14: implement append via fold
-  def appendViaFoldRight[A](l: List[A], r: List[A]): List[A] = 
+  def appendViaFoldRight[A](l: List[A], r: List[A]): List[A] =
     foldRight(l, r)(Cons(_,_))
 
   // Exercise 15: implement function to concat list of list into single list
-  def flatMap[A](ll: List[List[A]]): List[A] = 
+  def flatMap[A](ll: List[List[A]]): List[A] =
     foldRight(ll, Nil: List[A])(append)
 
 }

@@ -91,7 +91,7 @@ class Chapter3Spec extends FeatureSpec {
     }
 
     scenario("18 - implement map") {
-      def map[A,B](l: List[A])(f: A => B): List[B] = 
+      def map[A,B](l: List[A])(f: A => B): List[B] =
         List.foldRight(l, Nil: List[B])((x, acc) => Cons(f(x), acc))
       val l = List(1.0,2.0)
       val lStringified = map(l)((a) => a.toString)
