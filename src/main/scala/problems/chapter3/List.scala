@@ -91,7 +91,7 @@ object List {
 
   // Exercise 13: implement foldLeft with foldRight
    def foldLeftViaFoldRight[A,B](l: List[A], z: B)(f: (A, B) => B): B =
-     foldRight(l, (b:B) => b)((a, g) => b => g(f(a, b)))(z)
+     foldRight(l, (b:B) => b)((a, g) => t => g(f(a, t)))(z)
 
   def foldRightViaFoldLeft[A,B](l: List[A], z: B)(f: (A, B) => B): B =
      foldLeft(l, (b:B) => b)((a, g) => b => g(f(a, b)))(z)
@@ -102,7 +102,7 @@ object List {
     foldRight(l, r)(Cons(_,_))
 
   // Exercise 15: implement function to concat list of list into single list
-  def flatMap[A](ll: List[List[A]]): List[A] =
+  def flatten[A](ll: List[List[A]]): List[A] =
     foldRight(ll, Nil: List[A])(append)
 
 }

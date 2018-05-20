@@ -70,7 +70,7 @@ class Chapter3Spec extends FeatureSpec {
     }
 
     scenario("15 - implement func to concat list of list into single list") {
-      val l = List.flatMap(List(List(1,2), List(3,4), List(5)))
+      val l = List.flatten(List(List(1,2), List(3,4), List(5)))
       assert(l == List(1,2,3,4,5))
     }
   }
@@ -98,5 +98,15 @@ class Chapter3Spec extends FeatureSpec {
       assert(lStringified == List("1.0", "2.0"))
     }
 
+    scenario("19 - implement filter") {
+      def filter[A](l: List[A])(f: A => Boolean): List[A] =
+        List.foldRight(l, Nil: List[A])((x, acc) => {
+          if (f(x)) Cons(x, acc)
+          else acc
+        })
+      val l = List(1,2,3,4)
+      val evenOnly = filter(l)(_ % 2 != 1)
+      assert(evenOnly == List(2,4))
+    }
   }
 }
