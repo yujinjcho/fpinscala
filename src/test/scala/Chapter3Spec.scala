@@ -129,5 +129,22 @@ class Chapter3Spec extends FeatureSpec {
       val r = List.zipAndTransform(List(1,2), List(3,4))(_ + _)
       assert(r == List(4,6))
     }
+
+    scenario("24 - implement has subsequence") {
+      def hasSubsequence[A](l: List[A], sub: List[A]): Boolean = 
+        (l, sub) match {
+          case (_, Nil) => true
+          case (Nil, _) => false
+          case (Cons(h1, t1), Cons(h2, t2)) => {
+            if (h1 == h2) hasSubsequence(t1, t2)
+            else hasSubsequence(t1, sub)
+          }
+        }
+
+      val l = List(1,2,3,4)
+      val sub = List(3,4)
+      assert(hasSubsequence(l, sub))
+      assert(!hasSubsequence(l, List(5)))
+    }
   }
 }
