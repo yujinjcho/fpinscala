@@ -189,5 +189,33 @@ class Chapter3Spec extends FeatureSpec {
       val b2 = Branch(Branch(Leaf("1"), Leaf("2")), Leaf("4"))
       assert(mapT(b1)((x) => x.toString) == b2)
     }
+
+    scenario("29 - implement size, max, depth, and map with fold") {
+      def foldT[A,B](t:Tree[A], z: (A => B))(f:(B,B) => B ): B =
+        t match {
+          case Leaf(value) => z(value)
+          case Branch(left, right) => f(foldT(left, z)(f), foldT(right, z)(f))
+        }
+
+      val b1 = Branch(Branch(Leaf(1), Leaf(2)), Leaf(4))
+
+      def sizeViaFold[A](t:Tree[A]): Int =
+        foldT(t, (a:A) => 1 )((l, r) => l + r)
+      assert(sizeViaFold(b1) == 3)
+
+      def maxViaFold[A](t:Tree[A])(f: (A,A) => A): A =
+        foldT(t, (a:A) => a )((l, r) => f(l, r))
+      assert(maxViaFold(b1)((a,b) => a max b) == 4)
+
+      def depthViaFold[A](t:Tree[A]): Int =
+        foldT(t, (a:A) => 0 )((l, r) => (l max r) + 1)
+      assert(depthViaFold(b1) == 2)
+
+      def mapViaFold[A,B](t:Tree[A])(f:A => B): Tree[B] =
+        foldT(t, (a:A) => Leaf(f(a)): Tree[B])(Branch(_,_))
+
+      val b2 = Branch(Branch(Leaf("1"), Leaf("2")), Leaf("4"))
+      assert(mapViaFold(b1)(x => x.toString) == b2)
+    }
   }
 }
