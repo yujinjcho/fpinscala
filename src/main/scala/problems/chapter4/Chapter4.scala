@@ -1,5 +1,7 @@
 package problems.chapter4
 
+import java.util.regex._
+
 object Chapter4 {
   def mean(xs: Seq[Double]): Option[Double] =
     if (xs.isEmpty) None
@@ -15,4 +17,23 @@ object Chapter4 {
       x <- a
       y <- b
     } yield f(x, y)
+
+  def pattern(s: String): Option[Pattern] =
+    try {
+      Some(Pattern.compile(s))
+    } catch {
+      case e: PatternSyntaxException => None
+    }
+
+  def mkMatcher(pat: String): Option[String => Boolean] =
+    pattern(pat) map (p => (s: String) => p.matcher(s).matches)
+
+  def bothMatch(pat: String, pat2: String, s: String): Option[Boolean] =
+    for {
+      f <- mkMatcher(pat)
+      g <- mkMatcher(pat2)
+    } yield f(s) && g(s)
+
+  def bothMatch2(pat: String, pat2: String, s: String): Option[Boolean] =
+    map2(mkMatcher(pat), mkMatcher(pat2))((a,b) => a(s) && b(s))
 }

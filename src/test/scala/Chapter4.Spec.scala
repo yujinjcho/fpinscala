@@ -17,5 +17,15 @@ class Chapter4Spec extends FeatureSpec {
       val r = Chapter4.map2(a, b)((x,y) => x.toString + y.toString)
       assert(r.getOrElse("") == "12.0")
     }
+
+    scenario("bothMatch is working") {
+      val a = Chapter4.bothMatch("a", "a", "a")
+      assert(a.getOrElse(false))
+    }
+
+    scenario("4 - implement bothMatch with map2") {
+      val a = Chapter4.bothMatch2("a", "a", "a")
+      assert(a.getOrElse(false))
+    }
   }
 }
