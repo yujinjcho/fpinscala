@@ -9,4 +9,10 @@ object Chapter4 {
     val m = mean(xs)
     m.flatMap(xsMean => mean(xs.map(a => math.pow(a - xsMean, 2))) )
   }
+
+  def map2[A,B,C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] =
+    for {
+      x <- a
+      y <- b
+    } yield f(x, y)
 }
