@@ -36,4 +36,11 @@ object Chapter4 {
 
   def bothMatch2(pat: String, pat2: String, s: String): Option[Boolean] =
     map2(mkMatcher(pat), mkMatcher(pat2))((a,b) => a(s) && b(s))
+
+  def sequence[A](a: List[Option[A]]): Option[List[A]] = {
+    a match {
+      case Nil => Some(Nil)
+      case h::t => h flatMap (hh => sequence(t) map (hh :: _))
+    }
+  }
 }

@@ -27,5 +27,11 @@ class Chapter4Spec extends FeatureSpec {
       val a = Chapter4.bothMatch2("a", "a", "a")
       assert(a.getOrElse(false))
     }
+
+    scenario("5 - implement sequence") {
+      val a = List(Some(1), Some(2))
+      val b = Chapter4.sequence(a)
+      assert(b.getOrElse(List()) == List(1,2))
+    }
   }
 }
