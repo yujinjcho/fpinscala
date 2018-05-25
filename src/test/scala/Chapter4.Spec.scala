@@ -33,5 +33,11 @@ class Chapter4Spec extends FeatureSpec {
       val b = Chapter4.sequence(a)
       assert(b.getOrElse(List()) == List(1,2))
     }
+
+    scenario("6 - implement traverse") {
+      val a = List(Some(1), Some(2))
+      val b = Chapter4.sequenceViaTraverse(a)
+      assert(b.getOrElse(List()) == List(1,2))
+    }
   }
 }
