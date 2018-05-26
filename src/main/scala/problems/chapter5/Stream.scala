@@ -6,7 +6,7 @@ trait Stream[+A] {
 
   def toList: List[A] = uncons match {
     case None => Nil
-    case Some((h, t)) => List(h) ++: t.toList 
+    case Some((h, t)) => List(h) ++: t.toList
   }
 }
 
