@@ -8,6 +8,17 @@ trait Stream[+A] {
     case None => Nil
     case Some((h, t)) => List(h) ++: t.toList
   }
+
+  def take(n: Int): Stream[A] = {
+    if (n==0) {
+      new Stream[A] { def uncons = None }
+    } else {
+      uncons match {
+        case None => new Stream[A] { def uncons = None }
+        case Some((h, t)) => new Stream[A] { lazy val uncons = Some((h, t.take(n-1))) }
+      }
+    }
+  }
 }
 
 object Stream {

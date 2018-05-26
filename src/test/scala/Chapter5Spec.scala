@@ -8,5 +8,10 @@ class Chapter5Spec extends FeatureSpec {
       val s1: Stream[Int] = Stream(1,2,3)
       assert(s1.toList == List(1,2,3))
     }
+
+    scenario("2 - implement take") {
+      val s1: Stream[Int] = Stream(1,2,3)
+      assert(s1.take(1) == Stream(1))
+    }
   }
 }
