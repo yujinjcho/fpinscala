@@ -64,6 +64,13 @@ class Chapter4Spec extends FeatureSpec {
         case Right(x) => assert(x == 1)
         case _ => assert(false)
       }
+
+      // map2
+      val e = a.map2(Right(10))((x,y) => x*y)
+      e match {
+        case Right(x) => assert(x == 10)
+        case _ => assert(false)
+      }
     }
   }
 }

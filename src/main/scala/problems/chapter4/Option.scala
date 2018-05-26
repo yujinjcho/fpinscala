@@ -33,7 +33,7 @@ sealed trait Option[+A] {
     case _ => None
   }
 
-  def filter2(f: A => Boolean): Option[A] = 
+  def filter2(f: A => Boolean): Option[A] =
     flatMap((x) => if (f(x)) Some(x) else None)
 }
 
@@ -55,6 +55,12 @@ sealed trait Either[+E,+A] {
     case Right(r) => Right(r)
     case Left(l) => b
   }
+
+  def map2[EE >: E, B, C](b: Either[EE, B])(f: (A, B) => C): Either[EE, C] =
+    for {
+      a <- this
+      b1 <- b
+    } yield f(a,b1)
 
 }
 case class Left[+E](value: E) extends Either[E, Nothing]
