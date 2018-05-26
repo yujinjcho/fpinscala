@@ -43,11 +43,18 @@ class Chapter4Spec extends FeatureSpec {
 
   feature("The Either data type") {
     scenario("7 - implement map, flatMap, orElse, map2 that operate on Right") {
-      val a = Right(1)
+      val a: Either[String,Int] = Right(1)
+      val z: Either[String,Int] = Left("fail")
       // map
       val b = a.map(x => x + 1)
       b match {
         case Right(x) => assert(x == 2)
+        case _ => assert(false)
+      }
+
+      val bLeft = z.map(x => x + 1)
+      bLeft match {
+        case Left(x) => assert(x == "fail")
         case _ => assert(false)
       }
 
@@ -58,10 +65,21 @@ class Chapter4Spec extends FeatureSpec {
         case _ => assert(false)
       }
 
+      val cLeft = z.flatMap(x => Right(x + 2))
+      cLeft match {
+        case Left(x) => assert(x == "fail")
+        case _ => assert(false)
+      }
+
       // orElse
       val d = a.orElse(Right(10))
       d match {
         case Right(x) => assert(x == 1)
+        case _ => assert(false)
+      }
+      val dLeft = z.orElse(Right(20))
+      dLeft match {
+        case Right(x) => assert(x == 20)
         case _ => assert(false)
       }
 
@@ -69,6 +87,16 @@ class Chapter4Spec extends FeatureSpec {
       val e = a.map2(Right(10))((x,y) => x*y)
       e match {
         case Right(x) => assert(x == 10)
+        case _ => assert(false)
+      }
+      val eLeft = z.map2(Right(10))((x,y) => x*y)
+      eLeft match {
+        case Left(x) => assert(x == "fail")
+        case _ => assert(false)
+      }
+      val eLeft2 = a.map2(z)((x,y) => x*y)
+      eLeft match {
+        case Left(x) => assert(x == "fail")
         case _ => assert(false)
       }
     }
