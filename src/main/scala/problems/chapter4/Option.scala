@@ -39,3 +39,12 @@ sealed trait Option[+A] {
 
 case class Some[+A](get: A) extends Option[A]
 case object None extends Option[Nothing]
+
+sealed trait Either[+E,+A] {
+	def map[B](f: A => B): Either[E, B] = this match {
+    case Left(l) => Left(l)
+    case Right(r) => Right(f(r))
+	}
+}
+case class Left[+E](value: E) extends Either[E, Nothing]
+case class Right[+A](value: A) extends Either[Nothing,A]

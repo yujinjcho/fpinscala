@@ -40,4 +40,15 @@ class Chapter4Spec extends FeatureSpec {
       assert(b.getOrElse(List()) == List(1,2))
     }
   }
+
+  feature("The Either data type") {
+    scenario("implement map, flatMap, orElse, map2 that operate on Right") {
+      val a = Right(1)
+      val b = a.map(x => x + 1)
+      b match {
+        case Right(x) => assert(x == 2)
+        case _ => assert(false)
+      }
+    }
+  }
 }
