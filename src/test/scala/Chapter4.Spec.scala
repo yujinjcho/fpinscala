@@ -44,15 +44,24 @@ class Chapter4Spec extends FeatureSpec {
   feature("The Either data type") {
     scenario("7 - implement map, flatMap, orElse, map2 that operate on Right") {
       val a = Right(1)
+      // map
       val b = a.map(x => x + 1)
       b match {
         case Right(x) => assert(x == 2)
         case _ => assert(false)
       }
 
+      // flatMap
       val c = a.flatMap(x => Right(x + 2))
       c match {
         case Right(x) => assert(x == 3)
+        case _ => assert(false)
+      }
+
+      // orElse
+      val d = a.orElse(Right(10))
+      d match {
+        case Right(x) => assert(x == 1)
         case _ => assert(false)
       }
     }
