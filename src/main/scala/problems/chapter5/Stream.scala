@@ -3,6 +3,11 @@ package problems.chapter5
 trait Stream[+A] {
   def uncons: Option[(A, Stream[A])]
   def isEmpty: Boolean = uncons.isEmpty
+
+  def toList: List[A] = uncons match {
+    case None => Nil
+    case Some((h, t)) => List(h) ++: t.toList 
+  }
 }
 
 object Stream {
