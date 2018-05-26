@@ -1,5 +1,6 @@
 package problems.chapter4
 
+import scala.{Option => _, Either => _, _}
 import org.scalatest._
 
 class Chapter4Spec extends FeatureSpec {
@@ -97,6 +98,45 @@ class Chapter4Spec extends FeatureSpec {
       val eLeft2 = a.map2(z)((x,y) => x*y)
       eLeft match {
         case Left(x) => assert(x == "fail")
+        case _ => assert(false)
+      }
+    }
+
+    scenario("8 - implement sequence and traverse") {
+      val a: Either[String,Int] = Right(1)
+      val b: Either[String,Int] = Right(2)
+      val z: Either[String,Int] = Left("fail")
+      val es1 = List(a,b)
+      val r1 = Either.sequence(es1)
+      r1 match {
+        case Right(x) => assert(x == List(1,2))
+        case _ => assert(false)
+      }
+
+      val es2 = List(a,b,z)
+      val r2 = Either.sequence(es2)
+      r2 match {
+        case Left(x) => assert(x == "fail")
+        case _ => assert(false)
+      }
+
+      val t1 = Either.traverse(es1)(x => x.map(_ + 1))
+      t1 match {
+        case Right(x) => assert(x == List(2,3))
+        case _ => assert(false)
+      }
+
+      val t2 = Either.traverse(es2)(x => x.map(_ + 1))
+      t2 match {
+        case Left(x) => assert(x == "fail")
+        case _ => assert(false)
+      }
+
+      val z2: Either[String,Int] = Left("fail2")
+      val es3 = List(a,b,z2,z)
+      val t3 = Either.traverse(es3)(x => x.map(_ + 1))
+      t3 match {
+        case Left(x) => assert(x == "fail2")
         case _ => assert(false)
       }
     }
