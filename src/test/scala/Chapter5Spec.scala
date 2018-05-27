@@ -31,5 +31,10 @@ class Chapter5Spec extends FeatureSpec {
       val s1: Stream[Int] = Stream(1,1,2,1,1)
       assert(s1.takeWhileViaFoldRight(_ == 1).toList == List(1,1))
     }
+
+    scenario("6 - implement headOption with foldRight") {
+      val s1: Stream[Int] = Stream(1,1,2,1,1)
+      assert(s1.headOption == Some(1))
+    }
   }
 }
