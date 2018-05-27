@@ -16,5 +16,10 @@ class Chapter5Spec extends FeatureSpec {
       val s2: Stream[Int] = Stream(1,2,3)
       assert(s2.drop(1).toList == List(2,3))
     }
+
+    scenario("3 - implement takeWhile") {
+      val s1: Stream[Int] = Stream(1,1,2,3,1)
+      assert(s1.takeWhile(_ == 1).toList == List(1,1))
+    }
   }
 }
