@@ -21,5 +21,15 @@ class Chapter5Spec extends FeatureSpec {
       val s1: Stream[Int] = Stream(1,1,2,3,1)
       assert(s1.takeWhile(_ == 1).toList == List(1,1))
     }
+
+    scenario("4 - implement forAll") {
+      val s1: Stream[Int] = Stream(1,1,2,1,1)
+      assert(s1.forAll(_ == 1) == false)
+    }
+
+    scenario("5 - implement takeWhile with foldRight") {
+      val s1: Stream[Int] = Stream(1,1,2,1,1)
+      assert(s1.takeWhileViaFoldRight(_ == 1).toList == List(1,1))
+    }
   }
 }

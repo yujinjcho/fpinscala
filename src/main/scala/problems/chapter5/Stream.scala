@@ -1,6 +1,8 @@
 package problems.chapter5
 
-sealed trait Stream[+A] {
+import Stream._
+
+trait Stream[+A] {
   def toList: List[A] = this match {
     case Cons(h, t) => h() :: t().toList
     case _ => List()
@@ -37,6 +39,12 @@ sealed trait Stream[+A] {
       case Cons(h ,t) => f(h(), t().foldRight(z)(f))
       case _ => z
     }
+
+  def forAll(p: A => Boolean): Boolean =
+    foldRight(true)((a, b) => p(a) && b)
+
+  def takeWhileViaFoldRight(p: A => Boolean): Stream[A] =
+    foldRight(empty[A])((a, b) => if (p(a)) cons(a,b) else empty)
 }
 
 case object Empty extends Stream[Nothing]
