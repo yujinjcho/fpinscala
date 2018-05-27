@@ -36,5 +36,13 @@ class Chapter5Spec extends FeatureSpec {
       val s1: Stream[Int] = Stream(1,1,2,1,1)
       assert(s1.headOption == Some(1))
     }
+
+    scenario("7 - implement map, filter, append, and flatMap using foldRight") {
+      val s1: Stream[Int] = Stream(1,1,2)
+      assert(s1.map(_ + 1).toList == List(2,2,3))
+      assert(s1.filter(_ == 1).toList == List(1, 1))
+      assert(s1.append(Stream(3)).toList == List(1,1,2,3))
+      assert(s1.flatMap(x => Stream(x + 1)).toList == List(2,2,3))
+    }
   }
 }
