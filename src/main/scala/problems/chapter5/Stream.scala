@@ -2,8 +2,21 @@ package problems.chapter5
 
 sealed trait Stream[+A] {
   def toList: List[A] = this match {
-    case Empty => List()
-    case Cons(h, t) => List(h()) ++: t().toList
+    case Cons(h, t) => h() :: t().toList
+    case _ => List()
+  }
+
+  def take(n: Int): Stream[A] = {
+    if (n == 0) Empty
+    else this match {
+      case Empty => Empty
+      case Cons(h, t) => Cons(h, () => t().take(n - 1))
+    }
+  }
+
+  def drop(n: Int): Stream[A] = this match {
+    case Cons(_, t) if n > 0 => t().drop(n-1)
+    case _ => this
   }
 }
 
