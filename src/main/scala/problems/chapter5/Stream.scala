@@ -1,36 +1,24 @@
 package problems.chapter5
 
-trait Stream[+A] {
-  def uncons: Option[(A, Stream[A])]
-  def isEmpty: Boolean = uncons.isEmpty
-
-  def toList: List[A] = uncons match {
-    case None => Nil
-    case Some((h, t)) => List(h) ++: t.toList
-  }
-
-  def take(n: Int): Stream[A] = {
-    if (n==0) {
-      new Stream[A] { def uncons = None }
-    } else {
-      uncons match {
-        case None => new Stream[A] { def uncons = None }
-        case Some((h, t)) => new Stream[A] { lazy val uncons = Some((h, t.take(n-1))) }
-      }
-    }
+sealed trait Stream[+A] {
+  def toList: List[A] = this match {
+    case Empty => List()
+    case Cons(h, t) => List(h()) ++: t().toList
   }
 }
 
-object Stream {
-  def empty[A]: Stream[A] =
-    new Stream[A] { def uncons = None }
+case object Empty extends Stream[Nothing]
+case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
 
-  def cons[A](hd: => A, t1: => Stream[A]): Stream[A] =
-    new Stream[A] {
-      lazy val uncons = Some((hd, t1))
-    }
+object Stream {
+  def cons[A](hd: => A, tl: => Stream[A]): Stream[A] = {
+    lazy val head = hd
+    lazy val tail = tl
+    Cons(() => head, () => tail)
+  }
+
+  def empty[A]: Stream[A] = Empty
 
   def apply[A](as: A*): Stream[A] =
-    if (as.isEmpty) empty
-    else cons(as.head, apply(as.tail: _*))
+    if (as.isEmpty) empty else cons(as.head, apply(as.tail: _*))
 }
