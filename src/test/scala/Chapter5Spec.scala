@@ -43,6 +43,7 @@ class Chapter5Spec extends FeatureSpec {
       assert(s1.filter(_ == 1).toList == List(1, 1))
       assert(s1.append(Stream(3)).toList == List(1,1,2,3))
       assert(s1.flatMap(x => Stream(x + 1)).toList == List(2,2,3))
+      assert(s1.flatMap(x => Stream(x + 1, 10)).toList == List(2, 10, 2, 10, 3, 10))
     }
   }
 }
