@@ -55,5 +55,9 @@ class Chapter5Spec extends FeatureSpec {
       val s1: Stream[Int] = Stream.from(10)
       assert(s1.take(2).toList == List(10,11))
     }
+
+    scenario("10 - implement fib stream") {
+      assert(Stream.fibs.take(6).toList == List(0,1,1,2,3,5))
+    }
   }
 }

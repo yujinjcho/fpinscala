@@ -83,4 +83,12 @@ object Stream {
 
   def from(n: Int): Stream[Int] =
     cons(n, from(n + 1))
+
+  def fibs: Stream[Int] = {
+    def loop(a: Int, b:Int): Stream[Int] = {
+      val c = a + b
+      cons(c ,loop(b, c))
+    }
+    Stream(0, 1) append loop(0, 1)
+  }
 }
