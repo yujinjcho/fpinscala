@@ -45,5 +45,10 @@ class Chapter5Spec extends FeatureSpec {
       assert(s1.flatMap(x => Stream(x + 1)).toList == List(2,2,3))
       assert(s1.flatMap(x => Stream(x + 1, 10)).toList == List(2, 10, 2, 10, 3, 10))
     }
+
+    scenario("8 - implement constant stream") {
+      val s1: Stream[Int] = Stream.constant(2)
+      assert(s1.take(2).toList == List(2,2))
+    }
   }
 }
