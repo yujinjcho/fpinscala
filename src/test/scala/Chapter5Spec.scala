@@ -91,5 +91,10 @@ class Chapter5Spec extends FeatureSpec {
       assert(s1.startsWith(s2))
       assert(!s1.startsWith(s4))
     }
+
+    scenario("15 - implement tails") {
+      val s1: Stream[Int] = Stream(1,2)
+      assert(s1.tails.map(_.toList).toList == List(List(2), List()))
+    }
   }
 }
