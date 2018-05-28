@@ -104,6 +104,15 @@ trait Stream[+A] {
       case Cons(h,t) => Some(t(), t())
       case _ => None
     }
+
+  def scanRight[B](z: B)(f: (A, => B) => B): Stream[B] =
+    foldRight((z, Stream(z)))((a, p0) => {
+      lazy val p1 = p0
+      val b2 = f(a, p1._1)
+      (b2, cons(b2, p1._2))
+    })._2
+
+  //def foldRight[B](z: => B)(f: (A, => B) => B): B =
 }
 
 case object Empty extends Stream[Nothing]

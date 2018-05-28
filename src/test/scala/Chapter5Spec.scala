@@ -96,5 +96,10 @@ class Chapter5Spec extends FeatureSpec {
       val s1: Stream[Int] = Stream(1,2)
       assert(s1.tails.map(_.toList).toList == List(List(2), List()))
     }
+
+
+    scenario("16 - implement scanRight") {
+      assert(Stream(1,2,3).scanRight(0)(_ + _).toList == List(6,5,3,0))
+    }
   }
 }
