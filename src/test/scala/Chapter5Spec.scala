@@ -64,5 +64,12 @@ class Chapter5Spec extends FeatureSpec {
       val s: Stream[Int] = Stream.unfold(1)(x => Some(x, x*10))
       assert(s.take(3).toList == List(1, 10, 100))
     }
+
+    scenario("12 - implement fibs, from, constant, and ones with unfold") {
+      assert(Stream.onesViaUnfold.take(3).toList == List(1,1,1))
+      assert(Stream.constantViaUnfold(3).take(3).toList == List(3,3,3))
+      assert(Stream.fromViaUnfold(3).take(3).toList == List(3,4,5))
+      assert(Stream.fibsViaUnfold.take(6).toList == List(0,1,1,2,3,5))
+    }
   }
 }
