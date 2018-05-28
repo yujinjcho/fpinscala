@@ -71,5 +71,16 @@ class Chapter5Spec extends FeatureSpec {
       assert(Stream.fromViaUnfold(3).take(3).toList == List(3,4,5))
       assert(Stream.fibsViaUnfold.take(6).toList == List(0,1,1,2,3,5))
     }
+
+    scenario("13 - implement map, take, takeWhile, zipWith with unfold") {
+      val s: Stream[Int] = Stream(1,2,3)
+      val s2: Stream[Int] = Stream(1,1,1)
+      val s3: Stream[Int] = Stream(1,1,1,1)
+      assert(s.mapViaUnfold(_ + 1).toList == List(2,3,4))
+      assert(s.takeViaUnfold(1).toList == List(1))
+      assert(s.takeWhileViaFoldRight(_ < 3).toList == List(1,2))
+      assert(s.zipWith(s2)(_ + _).toList == List(2,3,4))
+      assert(s2.zipAll(s3).toList == List((Some(1),Some(1)), (Some(1),Some(1)), (Some(1),Some(1)), (None,Some(1))))
+    }
   }
 }
