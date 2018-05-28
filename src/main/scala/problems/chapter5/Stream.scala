@@ -95,6 +95,9 @@ trait Stream[+A] {
       case (Cons(h1,t1), Empty) => Some(((Some(h1()), None), (t1(), empty)))
       case _ => None
     }
+
+  def startsWith[A](s: Stream[A]): Boolean =
+    zipWith(s)((_,_)).forAll { case (a, b) => a == b }
 }
 
 case object Empty extends Stream[Nothing]

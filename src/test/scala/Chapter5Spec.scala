@@ -82,5 +82,14 @@ class Chapter5Spec extends FeatureSpec {
       assert(s.zipWith(s2)(_ + _).toList == List(2,3,4))
       assert(s2.zipAll(s3).toList == List((Some(1),Some(1)), (Some(1),Some(1)), (Some(1),Some(1)), (None,Some(1))))
     }
+
+    scenario("14 - implement startsWith") {
+      val s1: Stream[Int] = Stream(1,2,3)
+      val s2: Stream[Int] = Stream(1)
+      val s3: Stream[Int] = Stream(1,2,3)
+      val s4: Stream[Int] = Stream(1,3)
+      assert(s1.startsWith(s2))
+      assert(!s1.startsWith(s4))
+    }
   }
 }
