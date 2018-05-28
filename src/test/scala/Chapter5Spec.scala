@@ -50,5 +50,10 @@ class Chapter5Spec extends FeatureSpec {
       val s1: Stream[Int] = Stream.constant(2)
       assert(s1.take(2).toList == List(2,2))
     }
+
+    scenario("9 - implement from") {
+      val s1: Stream[Int] = Stream.from(10)
+      assert(s1.take(2).toList == List(10,11))
+    }
   }
 }
