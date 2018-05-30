@@ -86,4 +86,11 @@ case class SimpleRNG(seed: Long) extends RNG {
 
   val randDoubleIntViaBoth: Rand[(Double, Int)] =
     both(double, int)
+
+  def sequence[A](fs: List[Rand[A]]): Rand[List[A]] =
+    fs.foldRight(unit(List[A]()))((f,acc) => map2(f, acc)(_ :: _))
+
+  def intsViaSequence(count: Int)(rng: RNG): (List[Int], RNG) = {
+    sequence(List.fill(count)(int))
+  }
 }
