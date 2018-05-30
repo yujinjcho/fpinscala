@@ -77,4 +77,13 @@ case class SimpleRNG(seed: Long) extends RNG {
       (f(a,b), rng3)
     }
   }
+
+  def both[A,B](ra: Rand[A], rb: Rand[B]): Rand[(A,B)] =
+    map2(ra, rb)((_, _))
+
+  val randIntDoubleViaBoth: Rand[(Int, Double)] =
+    both(int, double)
+
+  val randDoubleIntViaBoth: Rand[(Double, Int)] =
+    both(double, int)
 }
