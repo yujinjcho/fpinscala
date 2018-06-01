@@ -159,7 +159,8 @@ object CandyMachine {
     sequence(
       inputs.map(i => {
         val m: (Machine => Machine) => State[Machine, Unit] = modify[Machine] _
-        val f: Input => State[Machine, Unit] = (m compose update)
+        val u: Input => (Machine => Machine) = update
+        val f: Input => State[Machine, Unit] = (x => m(u(x))) // m.compose(u)
         val r: State[Machine, Unit] = f(i)
         r
       })
