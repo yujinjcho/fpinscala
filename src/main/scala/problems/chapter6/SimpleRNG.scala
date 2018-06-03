@@ -155,18 +155,35 @@ case class Machine(locked: Boolean, candies: Int, coins: Int)
 
 
 object CandyMachine {
-  def simulateMachine(inputs: List[Input]): State[Machine, (Int, Int)] =
-    sequence(
-      inputs.map(i => {
+  def simulateMachine(inputs: List[Input]): State[Machine, (Int, Int)] = {
+
+    val convertInputToState: Input => State[Machine, Unit] =  {
+      (i: Input) => {
+
+        // create a method that takes a (Machine => Machine) function.
+        // modify will get the state, apply the passed in func
+        // and return the new state with a Unit as State[Machine,Unit]
         val m: (Machine => Machine) => State[Machine, Unit] = modify[Machine] _
+
+        // update is a function that returns a function which
+        // takes in a Machine and returns a Machine
         val u: Input => (Machine => Machine) = update
-        val f: Input => State[Machine, Unit] = (x => m(u(x))) // m.compose(u)
+
+        // we create the (Machine => Machine) function we need for
+        // m by passing in an Input to the update function
+        val f: Input => State[Machine, Unit] = (x => m(u(x)))
+
+        // pass in the actual input to this function we constructed
         val r: State[Machine, Unit] = f(i)
         r
-      })
-    ).flatMap( _ =>
-        get.map(s =>
-          (s.coins, s.candies)))
+      }
+    }
+
+    val convertedInputs: List[State[Machine, Unit]] = inputs.map(convertInputToState)
+    val inputState: State[Machine, List[Unit]] = sequence(convertedInputs)
+
+    inputState.flatMap( _ => get.map(s => (s.coins, s.candies)))
+  }
 
     def update: Input => (Machine => Machine) =  {
       (i: Input) => (s: Machine) =>
