@@ -48,4 +48,7 @@ object Chapter10 {
     def op(f: A => A, g: A => A) = f compose g
     val zero = (a:A) => a
   }
+
+  def foldMap[A,B](as: List[A], m: Monoid[B])(f: A => B): B =
+    as.foldLeft(m.zero)((b,a) => m.op(b, f(a)))
 }
