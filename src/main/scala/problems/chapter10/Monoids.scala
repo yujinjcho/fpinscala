@@ -37,8 +37,15 @@ object Chapter10 {
     val zero = true
   }
 
-  def optionMonoid[A]: new Monoid[Option[A]] {
-    def op(a1: Option[A], a2: Option[A]) =
+  // Exercise 10.2
+  def optionMonoid[A] = new Monoid[Option[A]] {
+    def op(a1: Option[A], a2: Option[A]) = a1 orElse a2
     val zero = None
+  }
+
+  // Exercise 10.3
+  def endoMonoid[A] = new Monoid[A => A] {
+    def op(f: A => A, g: A => A) = f compose g
+    val zero = (a:A) => a
   }
 }
